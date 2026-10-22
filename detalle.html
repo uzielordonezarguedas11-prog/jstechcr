@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS TECH | Expediente Técnico</title>
+    <meta name="theme-color" content="#0b3a3c">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="ap">
+    <header class="top">
+        <div class="container">
+            <nav class="navbar">
+                <a class="brand" href="dispositivos.html">
+                    <div class="logo">JS</div>
+                    <span>JS TECH</span>
+                </a>
+
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <a href="dispositivos.html" class="btn btn-outline-light">
+                        Volver a dispositivos
+                    </a>
+                </div>
+            </nav>
+
+            <div class="hero-copy">
+                <span class="eyebrow">DETALLE DE REPARACIÓN</span>
+                <h1 id="tituloDetalle">Cargando expediente...</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <!-- Aquí se inyectarán todos los detalles desde app.js -->
+        <section id="dt" aria-live="polite" style="margin-top: 0;"></section>
+
+        <footer class="footer">
+            <span>JS TECH</span>
+            <span>Panel de gestión de reparaciones</span>
+        </footer>
+    </main>
+</div>
+
+<section id="tk" class="print-ticket"></section>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

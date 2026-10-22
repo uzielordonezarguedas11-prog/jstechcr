@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS TECH | Dispositivos Registrados</title>
+    <meta name="theme-color" content="#0b3a3c">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<section id="lg" class="login-screen hidden">
+    <div class="login-card">
+        <div class="brand brand-dark">
+            <div class="logo">JS</div>
+            <span>JS TECH</span>
+        </div>
+
+        <h1>Panel del técnico</h1>
+        <p class="muted">Inicia sesión para ver los dispositivos.</p>
+
+        <form id="loginForm">
+            <label for="em">Correo electrónico</label>
+            <input id="em" type="email" autocomplete="username" required>
+
+            <label for="pw">Contraseña</label>
+            <input id="pw" type="password" autocomplete="current-password" required>
+
+            <button class="btn btn-primary btn-full" id="bl" type="submit">
+                Entrar al panel
+            </button>
+        </form>
+
+        <div id="le" aria-live="polite"></div>
+    </div>
+</section>
+
+<div id="ap" class="hidden">
+    <header class="top">
+        <div class="container">
+            <nav class="navbar">
+                <a class="brand" href="index.html">
+                    <div class="logo">JS</div>
+                    <span>JS TECH</span>
+                </a>
+
+                <div class="nav-right-container">
+                    <div class="nav-buttons">
+                        <a href="index.html" class="btn btn-outline-light">
+                            Registrar nuevo equipo
+                        </a>
+                        <button class="btn btn-outline-light" id="bo" type="button">
+                            Cerrar sesión
+                        </button>
+                    </div>
+                    <img src="logo.jpeg" alt="Logo JS TECH" class="nav-logo">
+                </div>
+            </nav>
+
+            <div class="hero-copy">
+                <span class="eyebrow">CONTROL DE EQUIPOS</span>
+                <h1>Dispositivos Registrados</h1>
+                <p>Busca un equipo, filtra por su estado y gestiona sus reparaciones.</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+
+        <section class="card" style="margin-bottom:22px;">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">FILTROS Y BÚSQUEDA</span>
+                    <h2>Lista general</h2>
+                </div>
+                <span class="heading-icon">⌕</span>
+            </div>
+
+            <p class="muted">Encuentra rápidamente cualquier dispositivo.</p>
+
+            <div class="filters">
+                <div class="field">
+                    <label for="fq">Buscar dispositivo</label>
+                    <input id="fq" type="search" placeholder="Nombre del cliente, código, modelo o serie...">
+                </div>
+
+                <div class="field">
+                    <label for="fe">Filtrar por estado</label>
+                    <select id="fe">
+                        <option value="">Todos los estados</option>
+                        <option>Recibido</option>
+                        <option>En diagnóstico</option>
+                        <option>Esperando repuesto</option>
+                        <option>En reparación</option>
+                        <option>Listo para entrega</option>
+                        <option>Entregado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="ls" class="device-list" aria-live="polite">
+                Cargando dispositivos...
+            </div>
+        </section>
+
+        <!-- Aquí app.js muestra los detalles de cada reparación -->
+        <section id="dt" aria-live="polite"></section>
+
+        <footer class="footer">
+            <span>JS TECH</span>
+            <span>Panel de gestión de reparaciones</span>
+        </footer>
+    </main>
+</div>
+
+<section id="tk" class="print-ticket"></section>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

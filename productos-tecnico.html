@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS TECH | Gestión de Productos</title>
+    <meta name="theme-color" content="#0b3a3c">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="ap">
+    <header class="top">
+        <div class="container">
+            <nav class="navbar">
+                <a class="brand" href="index.html">
+                    <div class="logo">JS</div>
+                    <span>JS TECH</span>
+                </a>
+                <div class="nav-buttons">
+                    <a href="index.html" class="btn btn-outline-light">Volver al Panel</a>
+                    <a href="productos.html" target="_blank" class="btn btn-outline-light">Ver Tienda (Clientes)</a>
+                </div>
+            </nav>
+            <div class="hero-copy">
+                <span class="eyebrow">INVENTARIO Y TIENDA</span>
+                <h1>Gestión de Productos</h1>
+                <p>Sube nuevos productos con fotos a Google Drive y organízalos por categorías y subcategorías.</p>
+            </div>
+        </div>
+    </header>
+    <main class="container main-content">
+        <section class="card">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">NUEVO PRODUCTO</span>
+                    <h2>Publicar artículo</h2>
+                </div>
+                <span class="heading-icon">＋</span>
+            </div>
+            <p class="muted">Ingresa los detalles, selecciona categoría y subcategoría, y sube la foto a Google Drive.</p>
+            
+            <form id="productForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="p_nombre">Nombre del producto *</label>
+                        <input id="p_nombre" maxlength="120" required placeholder="Ej: Tinta Epson T664 Negra">
+                    </div>
+                    <div class="field">
+                        <label for="p_precio">Precio (₡) *</label>
+                        <input id="p_precio" type="number" min="0" step="0.01" required placeholder="8500">
+                    </div>
+                    <div class="field">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
+                            <label for="p_categoria" style="margin: 0;">Categoría *</label>
+                            <button type="button" id="btnToggleNuevaCat" class="btn btn-neutral" style="padding: 4px 10px; font-size: 11px;">⚙️ Adm. categorías</button>
+                        </div>
+                        <select id="p_categoria" required>
+                            <option value="" disabled selected>Cargando categorías...</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
+                            <label for="p_subcategoria" style="margin: 0;">Subcategoría</label>
+                            <button type="button" id="btnToggleNuevaSubCat" class="btn btn-neutral" style="padding: 4px 10px; font-size: 11px;">⚙️ Adm. subcategorías</button>
+                        </div>
+                        <select id="p_subcategoria">
+                            <option value="">Selecciona primero una categoría...</option>
+                        </select>
+                    </div>
+                    <div class="field field-full-row" id="contenedorNuevaCat" style="display: none; background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <label style="font-weight:700;">Administrar Categorías Principales</label>
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <input type="text" id="inputNuevaCat" placeholder="Nombre de la nueva categoría..." maxlength="50" style="flex:1;">
+                            <button type="button" id="btnGuardarCat" class="btn btn-primary" style="padding: 8px 16px; font-size: 12px; white-space: nowrap;">Añadir</button>
+                        </div>
+                        <div id="listaCategoriasAdmin" style="display: flex; flex-direction: column; gap: 6px; max-height: 140px; overflow-y: auto; margin-top: 10px;"></div>
+                    </div>
+                    <div class="field field-full-row" id="contenedorNuevaSubCat" style="display: none; background: #f8fafc; padding: 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <label style="font-weight:700;">Administrar Subcategorías de: <span id="lblCatSeleccionada" style="color:var(--brand-700);">-</span></label>
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <input type="text" id="inputNuevaSubCat" placeholder="Nombre de subcategoría (Ej: Epson, Canon)..." maxlength="50" style="flex:1;">
+                            <button type="button" id="btnGuardarSubCat" class="btn btn-primary" style="padding: 8px 16px; font-size: 12px; white-space: nowrap;">Añadir</button>
+                        </div>
+                        <div id="listaSubCategoriasAdmin" style="display: flex; flex-direction: column; gap: 6px; max-height: 140px; overflow-y: auto; margin-top: 10px;"></div>
+                    </div>
+                </div>
+                
+                <div class="field" style="margin-top:14px;">
+                    <label for="p_foto">Fotografía del Producto (Google Drive) *</label>
+                    <input type="file" id="p_foto" accept="image/jpeg,image/png,image/webp" required class="photo-input">
+                    <div id="vistaPreviaProducto" style="margin-top:10px;"></div>
+                </div>
+                <div class="field" style="margin-top:14px;">
+                    <label for="p_desc">Descripción del producto *</label>
+                    <textarea id="p_desc" rows="3" required placeholder="Detalles, estado, compatibilidad..."></textarea>
+                </div>
+                <button class="btn btn-primary btn-full" id="btnSubirProducto" type="submit" style="margin-top: 18px;">
+                    Subir foto a Google Drive y Publicar
+                </button>
+                <div id="mensajeProducto" class="photo-status" aria-live="polite"></div>
+            </form>
+        </section>
+        
+        <section class="card">
+            <h3>Productos Publicados Actualmente</h3>
+            <div id="listaProductosTecnico" style="margin-top: 20px;" aria-live="polite">
+                Cargando productos...
+            </div>
+        </section>
+
+        <footer class="footer">
+            <span>JS TECH</span>
+            <span>Panel de gestión y ventas</span>
+        </footer>
+    </main>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyBHdtd1YLq8z_cuVgUDx33Z088okq0Sriw",
+        authDomain: "servicio-tecnico-1d91f.firebaseapp.com",
+        projectId: "servicio-tecnico-1d91f",
+        storageBucket: "servicio-tecnico-1d91f.firebasestorage.app",
+        messagingSenderId: "475926146823",
+        appId: "1:475926146823:web:1bd26d301c1ad0d25f5fa2"
+    };
+    const URL_GOOGLE_DRIVE = "https://script.google.com/macros/s/AKfycbzlow_wvsZqfhcx6zKHzNRg6xGmScLD9_C5cGuIjXl_fJnpooVFN5jv7VwcKmOW9CGygg/exec";
+    
+    const app = initializeApp(firebaseConfig);
+    const db = initializeFirestore(app, { experimentalForceLongPolling: true });
+    
+    const form = document.getElementById("productForm");
+    const fotoInput = document.getElementById("p_foto");
+    const vistaPrevia = document.getElementById("vistaPreviaProducto");
+    const mensaje = document.getElementById("mensajeProducto");
+    const contenedorLista = document.getElementById("listaProductosTecnico");
+    
+    const selectCategoria = document.getElementById("p_categoria");
+    const selectSubcategoria = document.getElementById("p_subcategoria");
+    const btnToggleNuevaCat = document.getElementById("btnToggleNuevaCat");
+    const contenedorNuevaCat = document.getElementById("contenedorNuevaCat");
+    const inputNuevaCat = document.getElementById("inputNuevaCat");
+    const btnGuardarCat = document.getElementById("btnGuardarCat");
+    const listaCategoriasAdmin = document.getElementById("listaCategoriasAdmin");
+    const btnToggleNuevaSubCat = document.getElementById("btnToggleNuevaSubCat");
+    const contenedorNuevaSubCat = document.getElementById("contenedorNuevaSubCat");
+    const inputNuevaSubCat = document.getElementById("inputNuevaSubCat");
+    const btnGuardarSubCat = document.getElementById("btnGuardarSubCat");
+    const listaSubCategoriasAdmin = document.getElementById("listaSubCategoriasAdmin");
+    const lblCatSeleccionada = document.getElementById("lblCatSeleccionada");
+    let subcategoriasCache = [];
+
+    function escapar(valor) {
+        return String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        })[caracter]);
+    }
+
+    btnToggleNuevaCat.addEventListener("click", () => {
+        const visible = contenedorNuevaCat.style.display === "block";
+        contenedorNuevaCat.style.display = visible ? "none" : "block";
+        contenedorNuevaSubCat.style.display = "none";
+    });
+
+    btnGuardarCat.addEventListener("click", async () => {
+        const nombre = inputNuevaCat.value.trim();
+        if (!nombre) return alert("Escribe el nombre de la categoría.");
+        try {
+            await addDoc(collection(db, "categories"), { nombre, creado: Date.now() });
+            inputNuevaCat.value = "";
+        } catch (err) { alert("Error: " + err.message); }
+    });
+
+    window.eliminarCategoria = async (id) => {
+        if (confirm("¿Eliminar esta categoría principal?")) {
+            await deleteDoc(doc(db, "categories", id));
+        }
+    };
+
+    btnToggleNuevaSubCat.addEventListener("click", () => {
+        if (!selectCategoria.value) return alert("Primero selecciona una categoría en la opción superior.");
+        const visible = contenedorNuevaSubCat.style.display === "block";
+        contenedorNuevaSubCat.style.display = visible ? "none" : "block";
+        contenedorNuevaCat.style.display = "none";
+    });
+
+    btnGuardarSubCat.addEventListener("click", async () => {
+        const categoria = selectCategoria.value;
+        const nombre = inputNuevaSubCat.value.trim();
+        if (!categoria) return alert("Selecciona una categoría.");
+        if (!nombre) return alert("Escribe el nombre de la subcategoría.");
+        try {
+            await addDoc(collection(db, "subcategories"), { categoria, nombre, creado: Date.now() });
+            inputNuevaSubCat.value = "";
+        } catch (err) { alert("Error: " + err.message); }
+    });
+
+    window.eliminarSubCategoria = async (id) => {
+        if (confirm("¿Eliminar esta subcategoría?")) {
+            await deleteDoc(doc(db, "subcategories", id));
+        }
+    };
+
+    onSnapshot(query(collection(db, "categories"), orderBy("nombre")), snapshot => {
+        const valorActual = selectCategoria.value;
+        selectCategoria.innerHTML = `<option value="" disabled selected>Selecciona una categoría...</option>`;
+        let htmlAdmin = "";
+        snapshot.forEach(docSnap => {
+            const cat = docSnap.data();
+            const id = docSnap.id;
+            selectCategoria.innerHTML += `<option value="${escapar(cat.nombre)}">${escapar(cat.nombre)}</option>`;
+            htmlAdmin += `
+                <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;padding:6px 12px;border-radius:6px;border:1px solid #e2e8f0;font-size:13px;">
+                    <span style="font-weight:600;">${escapar(cat.nombre)}</span>
+                    <button type="button" onclick="eliminarCategoria('${id}')" style="background:#fee2e2;border:none;color:#dc2626;padding:2px 8px;border-radius:4px;cursor:pointer;font-weight:bold;">✕</button>
+                </div>`;
+        });
+        selectCategoria.value = valorActual;
+        listaCategoriasAdmin.innerHTML = htmlAdmin || "<small class='muted'>No hay categorías registradas.</small>";
+    });
+
+    onSnapshot(query(collection(db, "subcategories"), orderBy("nombre")), snapshot => {
+        subcategoriasCache = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        actualizarSelectSubcategorias();
+    });
+
+    selectCategoria.addEventListener("change", () => {
+        lblCatSeleccionada.textContent = selectCategoria.value;
+        actualizarSelectSubcategorias();
+    });
+
+    function actualizarSelectSubcategorias() {
+        const catSeleccionada = selectCategoria.value;
+        selectSubcategoria.innerHTML = `<option value="">-- Sin subcategoría --</option>`;
+        let htmlSubAdmin = "";
+        const filtradas = subcategoriasCache.filter(s => s.categoria === catSeleccionada);
+        filtradas.forEach(sub => {
+            selectSubcategoria.innerHTML += `<option value="${escapar(sub.nombre)}">${escapar(sub.nombre)}</option>`;
+            htmlSubAdmin += `
+                <div style="display:flex;justify-content:space-between;align-items:center;background:#fff;padding:6px 12px;border-radius:6px;border:1px solid #e2e8f0;font-size:13px;">
+                    <span style="font-weight:600;">${escapar(sub.nombre)}</span>
+                    <button type="button" onclick="eliminarSubCategoria('${sub.id}')" style="background:#fee2e2;border:none;color:#dc2626;padding:2px 8px;border-radius:4px;cursor:pointer;font-weight:bold;">✕</button>
+                </div>`;
+        });
+        listaSubCategoriasAdmin.innerHTML = htmlSubAdmin || "<small class='muted'>No hay subcategorías para esta categoría.</small>";
+    }
+
+    fotoInput.addEventListener("change", () => {
+        vistaPrevia.innerHTML = "";
+        const archivo = fotoInput.files[0];
+        if (archivo) {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(archivo);
+            img.style.cssText = "width:120px; height:120px; object-fit:cover; border-radius:8px; border:1px solid #cbd5e1;";
+            vistaPrevia.appendChild(img);
+        }
+    });
+
+    form.addEventListener("submit", async e => {
+        e.preventDefault();
+        const nombre = document.getElementById("p_nombre").value.trim();
+        const precio = document.getElementById("p_precio").value.trim();
+        const categoria = selectCategoria.value;
+        const subcategoria = selectSubcategoria.value || "";
+        const descripcion = document.getElementById("p_desc").value.trim();
+        const archivo = fotoInput.files[0];
+        if (!archivo) return alert("Selecciona una fotografía.");
+        const boton = document.getElementById("btnSubirProducto");
+        boton.disabled = true;
+        boton.textContent = "Subiendo a Google Drive...";
+        try {
+            const base64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(archivo);
+            });
+            const respuesta = await fetch(URL_GOOGLE_DRIVE, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ file: base64, filename: `PROD_${Date.now()}_${archivo.name}` })
+            });
+            const resultado = await respuesta.json();
+            if (resultado.status !== "success" || !resultado.url) throw new Error("Error al subir imagen.");
+            await addDoc(collection(db, "products"), {
+                nombre,
+                precio: Number(precio),
+                categoria,
+                subcategoria,
+                imagen: resultado.url,
+                descripcion,
+                creado: Date.now()
+            });
+            mensaje.innerHTML = `<div class="message success">¡Foto subida a Google Drive y producto publicado!</div>`;
+            form.reset();
+            vistaPrevia.innerHTML = "";
+        } catch (error) {
+            mensaje.innerHTML = `<div class="message error">${escapar(error.message)}</div>`;
+        } finally {
+            boton.disabled = false;
+            boton.textContent = "Subir foto a Google Drive y Publicar";
+        }
+    });
+
+    onSnapshot(query(collection(db, "products"), orderBy("creado", "desc")), snapshot => {
+        if (snapshot.empty) {
+            contenedorLista.innerHTML = `<p class="muted">No hay productos publicados todavía.</p>`;
+            return;
+        }
+
+        let porCategoria = {};
+        snapshot.forEach(docSnap => {
+            const p = docSnap.data();
+            const cat = p.categoria || "Sin categoría";
+            if (!porCategoria[cat]) porCategoria[cat] = [];
+            porCategoria[cat].push({ id: docSnap.id, ...p });
+        });
+
+        let html = "";
+        for (const [cat, productos] of Object.entries(porCategoria)) {
+            html += `
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 1.15rem; color: var(--brand-700); border-bottom: 2px solid var(--brand-100); padding-bottom: 6px; margin-bottom: 14px;">
+                        📦 ${escapar(cat)} (${productos.length} productos)
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+            `;
+
+            productos.forEach(p => {
+                html += `
+                    <div class="device-row" style="margin:0; height: 100%;">
+                        <img src="${escapar(p.imagen)}" alt="Foto" style="width:100%; height:130px; object-fit:cover; border-radius:8px; margin-bottom:10px;" onerror="this.src='logo.jpeg'">
+                        <strong>${escapar(p.nombre)}</strong>
+                        <div style="display:flex;gap:4px;flex-wrap:wrap;margin:4px 0;">
+                            ${p.subcategoria ? `<span style="font-size:10px; font-weight:700; background:#dcfce7; color:#166534; padding:2px 8px; border-radius:4px;">${escapar(p.subcategoria)}</span>` : '<span style="font-size:10px; font-weight:700; background:#f1f5f9; color:#64748b; padding:2px 8px; border-radius:4px;">General</span>'}
+                        </div>
+                        <p style="color: var(--brand-700); font-weight:700; margin:4px 0;">₡${escapar(p.precio)}</p>
+                        <small class="muted" style="flex: 1;">${escapar(p.descripcion)}</small>
+                        <button class="btn-delete" style="width:100%; margin-top:10px; justify-content:center;" onclick="eliminarProducto('${p.id}')">🗑 Eliminar</button>
+                    </div>
+                `;
+            });
+
+            html += `</div></div>`;
+        }
+
+        contenedorLista.innerHTML = html;
+    });
+
+    window.eliminarProducto = async id => {
+        if (confirm("¿Estás seguro de eliminar este producto?")) {
+            await deleteDoc(doc(db, "products", id));
+        }
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS TECH | Panel técnico</title>
+    <meta name="theme-color" content="#0b3a3c">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<section id="lg" class="login-screen hidden">
+    <div class="login-card">
+        <div class="brand brand-dark">
+            <div class="logo">JS</div>
+            <span>JS TECH</span>
+        </div>
+        <h1>Panel del técnico</h1>
+        <p class="muted">Inicia sesión para gestionar los dispositivos.</p>
+        <form id="loginForm">
+            <label for="em">Correo electrónico</label>
+            <input id="em" type="email" autocomplete="username" required>
+            <label for="pw">Contraseña</label>
+            <input id="pw" type="password" autocomplete="current-password" required>
+            <button class="btn btn-primary btn-full" id="bl" type="submit">
+                Entrar al panel
+            </button>
+        </form>
+        <div id="le" aria-live="polite"></div>
+    </div>
+</section>
+<div id="ap" class="hidden">
+    <header class="top">
+        <div class="container">
+            <nav class="navbar">
+                <a class="brand" href="#">
+                    <div class="logo">JS</div>
+                    <span>JS TECH</span>
+                </a>
+                <div class="nav-right-container">
+                    <div class="nav-buttons">
+                        <a href="dispositivos.html" class="btn btn-outline-light">
+                            Ver dispositivos registrados
+                        </a>
+                        <!-- BOTÓN NUEVO PARA GESTIÓN DE PRODUCTOS -->
+                        <a href="productos-tecnico.html" class="btn btn-outline-light">
+                            Gestión de Productos
+                        </a>
+                        <button class="btn btn-outline-light" id="bo" type="button">
+                            Cerrar sesión
+                        </button>
+                    </div>
+                    <img src="logo.jpeg" alt="Logo JS TECH" class="nav-logo">
+                </div>
+            </nav>
+            <div class="hero-copy">
+                <span class="eyebrow">GESTIÓN DE SERVICIO TÉCNICO</span>
+                <h1>Panel del técnico</h1>
+                <p>Registra equipos nuevos y administra las reparaciones.</p>
+            </div>
+        </div>
+    </header>
+    <main class="container main-content">
+        <section class="stats-grid">
+            <article class="stat-card">
+                <span class="stat-icon">▣</span>
+                <span class="stat-label">Total registrados</span>
+                <strong id="s1">0</strong>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon">◷</span>
+                <span class="stat-label">En proceso</span>
+                <strong id="s2">0</strong>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon">✓</span>
+                <span class="stat-label">Listos para entrega</span>
+                <strong id="s3">0</strong>
+            </article>
+            <article class="stat-card">
+                <span class="stat-icon">↗</span>
+                <span class="stat-label">Entregados</span>
+                <strong id="s4">0</strong>
+            </article>
+        </section>
+        <section style="width: 100%; margin: 0 auto;">
+            <article class="card">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">NUEVO REGISTRO</span>
+                        <h2>Registrar dispositivo</h2>
+                    </div>
+                    <span class="heading-icon">＋</span>
+                </div>
+                <p class="muted">Completa los datos del cliente y del equipo recibido.</p>
+                <form id="deviceForm">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="f_cli">Nombre del cliente *</label>
+                            <input id="f_cli" maxlength="120" required>
+                        </div>
+                        <div class="field">
+                            <label for="f_tel">Teléfono 1</label>
+                            <input id="f_tel" type="tel" maxlength="25">
+                        </div>
+                        <div class="field">
+                            <label for="f_tel2">Teléfono 2</label>
+                            <input id="f_tel2" type="tel" maxlength="25">
+                        </div>
+                        <div class="field">
+                            <label for="f_email">Correo electrónico</label>
+                            <input id="f_email" type="email" maxlength="150">
+                        </div>
+                        <div class="field field-full-row">
+                            <label for="f_dir">Dirección</label>
+                            <input id="f_dir" maxlength="250">
+                        </div>
+                        <div class="field">
+                            <label for="f_tip">Tipo de dispositivo *</label>
+                            <select id="f_tip" required>
+                                <option>Impresora</option>
+                                <option>Laptop</option>
+                                <option>Accesorios</option>
+                                <option>PC</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="f_mar">Marca *</label>
+                            <input id="f_mar" maxlength="150">
+                        </div>
+                        <div class="field">
+                            <label for="f_mod">Modelo*</label>
+                            <input id="f_mod" maxlength="150">
+                        </div>
+                        <div class="field">
+                            <label for="f_col">Color</label>
+                            <input id="f_col" maxlength="80">
+                        </div>
+                        <div class="field">
+                            <label for="f_ser">Serie*</label>
+                            <input id="f_ser" maxlength="100">
+                        </div>
+                        <div class="field">
+                            <label for="f_cos">Costo estimado (₡)</label>
+                            <input id="f_cos" type="number" min="0" step="0.01">
+                        </div>
+                        <div class="field">
+                            <label for="f_prio">Prioridad *</label>
+                            <select id="f_prio" required>
+                                <option value="Normal">Normal</option>
+                                <option value="Urgente">Urgente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="f_obs">Observaciones iniciales*</label>
+                        <textarea id="f_obs" rows="3"></textarea>
+                    </div>
+                    <div class="field" style="margin-top: 16px;">
+                        <label for="f_pro">Problema reportado *</label>
+                        <textarea id="f_pro" rows="3" maxlength="2000" required placeholder="Describe el problema que presenta el equipo..."></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-full" id="bs" type="submit" style="margin-top: 16px;">
+                        Registrar y generar código
+                    </button>
+                    <div id="ok" aria-live="polite"></div>
+                </form>
+            </article>
+        </section>
+        <footer class="footer">
+            <span>JS TECH</span>
+            <span>Panel de gestión de reparaciones</span>
+        </footer>
+    </main>
+</div>
+<section id="tk" class="print-ticket"></section>
+<script type="module" src="app.js"></script>
+</body>
+</html>
